@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RTRWH - Enhanced MVP (Fixed)</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>Rooftop Rainwater Harvesting — Enhanced MVP (Fixed)</h1>
+      <p>On-spot assessment with charts, PDF, rainfall lookup & recommendations</p>
+    </header>
+
+    <main>
+      <div class="card wizard">
+        <div class="steps" id="steps">
+          <button class="step-btn active" data-step="1">1. User</button>
+          <button class="step-btn" data-step="2">2. Site</button>
+          <button class="step-btn" data-step="3">3. Compute</button>
+          <button class="step-btn" data-step="4">4. Results</button>
+        </div>
+
+        <form id="wizardForm">
+          <!-- STEP 1 -->
+          <section class="step" data-step="1">
+            <h2>About You</h2>
+            <label>Name <input id="name" required></label>
+            <label>Phone / Email <input id="contact"></label>
+            <div class="actions">
+              <button type="button" id="toStep2">Next</button>
+            </div>
+          </section>
+
+          <!-- STEP 2 -->
+          <section class="step" data-step="2" style="display:none">
+            <h2>Site Details</h2>
+            <label>Number of Dwellers <input id="dwellers" type="number" min="1" value="4" required></label>
+            <label>Location (city) 
+              <select id="city">
+                <option value="">-- Select city or choose 'Use GPS' --</option>
+                <option value="mumbai">Mumbai</option>
+                <option value="delhi">Delhi</option>
+                <option value="bangalore">Bangalore</option>
+                <option value="chennai">Chennai</option>
+                <option value="other">Other (use manual rainfall)</option>
+              </select>
+            </label>
+            <label>Or use GPS: <button type="button" id="getLocationBtn">Get GPS</button> <span id="gpsStatus"></span></label>
+            <label>Roof area (sq ft) <input id="roofArea" type="number" min="10" step="10" required></label>
+            <label>Open space (sq ft) <input id="openSpace" type="number" min="0" step="10" value="0"></label>
+            <label>Roof material
+              <select id="roofMaterial">
+                <option value="concrete">Concrete/RCC</option>
+                <option value="tile">Tile</option>
+                <option value="metal">Metal sheet</option>
+                <option value="green_roof">Green roof</option>
+              </select>
+            </label>
+            <label>Soil type
+              <select id="soilType">
+                <option value="">Unknown</option>
+                <option value="loam">Loam</option>
+                <option value="sand">Sand</option>
+                <option value="clay">Clay</option>
+              </select>
+            </label>
+            <label>Average annual rainfall (mm) <input id="rainfallManual" type="number" placeholder="Optional - auto from city/GPS"></label>
+            <div class="actions">
+              <button type="button" id="backTo1">Back</button>
+              <button type="button" id="toStep3">Next</button>
+            </div>
+          </section>
+
+          <!-- STEP 3 -->
+          <section class="step" data-step="3" style="display:none">
+            <h2>Compute Options</h2>
+            <label>Runoff coefficient (auto) <input id="runoffCoeff" type="number" step="0.01"></label>
+            <label>Household consumption (L/person/day) <input id="consumption" type="number" value="150"></label>
+            <div class="actions">
+              <button type="button" id="backTo2">Back</button>
+              <button type="button" id="computeBtn">Compute</button>
+            </div>
+          </section>
+
+          <!-- STEP 4 -->
+          <section class="step" data-step="4" style="display:none">
+            <h2>Results & Recommendations</h2>
+            <div id="resultsCard">
+              <div class="summary">
+                <p><strong>Harvest Potential (L/year):</strong> <span id="harvestL">-</span></p>
+                <p><strong>Annual Demand (L/year):</strong> <span id="demandL">-</span></p>
+                <p><strong>Feasibility:</strong> <span id="feasibilityLabel">-</span></p>
+                <p><strong>Recommended Tank:</strong> <span id="tankRec">-</span></p>
+              </div>
+              <div class="charts">
+                <canvas id="supplyDemandChart"></canvas>
+                <canvas id="monthlyChart"></canvas>
+              </div>
+              <div id="rechargeRec"></div>
+              <div id="impactMetrics"></div>
+              <div class="actions">
+                <button type="button" id="backTo3">Back</button>
+                <button type="button" id="downloadPdf">Download PDF Report</button>
+                <button type="button" id="startNew">New Assessment</button>
+              </div>
+            </div>
+          </section>
+        </form>
+      </div>
+    </main>
+    <footer>&copy; 2025 RTRWH MVP Fixed</footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
